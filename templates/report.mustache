@@ -1,0 +1,69 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_confidence/report
+
+    Example context (json):
+    {
+        Aqui tem que criar o context em inglês
+    }
+}}
+<div class="mod-confidence-report" data-cmid="{{cmid}}">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h2 class="h4 mb-1">{{name}}</h2>
+            <div class="text-muted">{{#str}}livereport, mod_confidence{{/str}}{{#anonymous}} · {{#str}}anonymousreport, mod_confidence{{/str}}{{/anonymous}}</div>
+        </div>
+        <a class="btn btn-outline-secondary" href="{{backurl}}">{{#str}}backtoactivity, mod_confidence{{/str}}</a>
+    </div>
+
+    <div class="confidence-metrics mb-4">
+        <div class="confidence-metric"><span>{{#str}}participants, mod_confidence{{/str}}</span><strong data-metric="participants">{{participants}}</strong></div>
+        <div class="confidence-metric"><span>{{#str}}submissions, mod_confidence{{/str}}</span><strong data-metric="submissions">{{submissions}}</strong></div>
+        <div class="confidence-metric"><span>{{#str}}improved, mod_confidence{{/str}}</span><strong data-metric="improved">{{improved}}</strong></div>
+        <div class="confidence-metric"><span>{{#str}}unchanged, mod_confidence{{/str}}</span><strong data-metric="unchanged">{{unchanged}}</strong></div>
+        <div class="confidence-metric"><span>{{#str}}declined, mod_confidence{{/str}}</span><strong data-metric="declined">{{declined}}</strong></div>
+    </div>
+
+    <div class="confidence-chart-card border rounded p-3 mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <h3 class="h5 mb-0">{{#str}}distribution, mod_confidence{{/str}}</h3>
+            <div class="btn-group" role="group" aria-label="{{#str}}charttype, mod_confidence{{/str}}">
+                <button type="button" class="btn btn-sm btn-outline-secondary active" data-chart-type="pie">{{#str}}chartpie, mod_confidence{{/str}}</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-chart-type="bar">{{#str}}chartbar, mod_confidence{{/str}}</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-chart-type="area">{{#str}}chartarea, mod_confidence{{/str}}</button>
+            </div>
+        </div>
+        <div class="confidence-chart" data-confidence-chart role="img" aria-label="{{#str}}distribution, mod_confidence{{/str}}"></div>
+        <div class="small text-muted mt-2">{{#str}}autoreload, mod_confidence{{/str}}</div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>{{#str}}participant, mod_confidence{{/str}}</th>
+                    <th>{{#str}}firstresponse, mod_confidence{{/str}}</th>
+                    <th>{{#str}}latestresponse, mod_confidence{{/str}}</th>
+                    <th>{{#str}}submissions, mod_confidence{{/str}}</th>
+                    <th>{{#str}}lastupdate, mod_confidence{{/str}}</th>
+                </tr>
+            </thead>
+            <tbody data-confidence-report-rows></tbody>
+        </table>
+    </div>
+</div>

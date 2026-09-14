@@ -1,0 +1,122 @@
+.mod-confidence .confidence-question {
+    background: var(--bs-light, #f8f9fa);
+    border-left: 4px solid var(--bs-primary, #0d6efd);
+    border-radius: .5rem;
+    padding: 1.25rem;
+}
+
+.mod-confidence .confidence-question__label {
+    color: var(--bs-secondary-color, #6c757d);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin-bottom: .45rem;
+    text-transform: uppercase;
+}
+
+.mod-confidence .confidence-options {
+    display: grid;
+    gap: .75rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.mod-confidence .confidence-option {
+    align-items: center;
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: .65rem;
+    cursor: pointer;
+    display: flex;
+    gap: .75rem;
+    margin: 0;
+    min-height: 72px;
+    padding: .85rem 1rem;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.mod-confidence .confidence-option:hover {
+    border-color: var(--bs-primary, #0d6efd);
+    box-shadow: 0 .25rem .8rem rgba(0, 0, 0, .08);
+    transform: translateY(-1px);
+}
+
+.mod-confidence .confidence-option input {
+    margin: 0;
+}
+
+.mod-confidence .confidence-option__label {
+    font-weight: 600;
+}
+
+.mod-confidence .confidence-result-row {
+    margin-bottom: .85rem;
+}
+
+.mod-confidence .confidence-result-row__label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .25rem;
+}
+
+.mod-confidence .confidence-result-row__track {
+    background: var(--bs-light, #f1f3f5);
+    border-radius: 999px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.mod-confidence .confidence-result-row__bar {
+    background: var(--bs-primary, #0d6efd);
+    border-radius: inherit;
+    height: 100%;
+}
+
+.mod-confidence-report .confidence-metrics {
+    display: grid;
+    gap: .75rem;
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+}
+
+.mod-confidence-report .confidence-metric {
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: .65rem;
+    padding: .85rem 1rem;
+}
+
+.mod-confidence-report .confidence-metric span {
+    color: var(--bs-secondary-color, #6c757d);
+    display: block;
+    font-size: .82rem;
+}
+
+.mod-confidence-report .confidence-metric strong {
+    display: block;
+    font-size: 1.5rem;
+    margin-top: .2rem;
+}
+
+.mod-confidence-report .confidence-chart {
+    min-height: 320px;
+}
+
+.mod-confidence-report .confidence-chart svg {
+    display: block;
+    max-width: 100%;
+}
+
+.mod-confidence-report .confidence-chart-level-1 { fill: #6c757d; stroke: #6c757d; }
+.mod-confidence-report .confidence-chart-level-2 { fill: #dc8b2f; stroke: #dc8b2f; }
+.mod-confidence-report .confidence-chart-level-3 { fill: #2f7ed8; stroke: #2f7ed8; }
+.mod-confidence-report .confidence-chart-level-4 { fill: #2f9e62; stroke: #2f9e62; }
+.mod-confidence-report .confidence-chart-before { fill: #adb5bd; }
+.mod-confidence-report .confidence-chart-after { fill: #2f9e62; }
+.mod-confidence-report .confidence-chart-area { fill-opacity: .16; stroke-width: 3; }
+.mod-confidence-report .confidence-chart-label,
+.mod-confidence-report .confidence-chart-axis,
+.mod-confidence-report .confidence-chart-value,
+.mod-confidence-report .confidence-chart-legend {
+    fill: currentColor;
+    font-family: inherit;
+    font-size: 13px;
+    stroke: none;
+}
+.mod-confidence-report .confidence-chart-value { font-weight: 700; }

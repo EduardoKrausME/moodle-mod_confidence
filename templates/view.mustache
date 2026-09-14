@@ -1,0 +1,139 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_confidence/view
+
+    Example context (json):
+    {
+        Aqui tem que criar o context em inglês
+    }
+}}
+<div class="mod-confidence" data-cmid="{{cmid}}">
+    {{#intro}}<div class="mb-4">{{{intro}}}</div>{{/intro}}
+
+    <section class="confidence-question mb-4">
+        <div class="confidence-question__label">{{#str}}question, mod_confidence{{/str}}</div>
+        <div class="confidence-question__content">{{{question}}}</div>
+    </section>
+
+    {{#availabilitymessage}}
+        <div class="alert alert-info">{{availabilitymessage}}</div>
+    {{/availabilitymessage}}
+
+    {{#presence.enabled}}
+        <div class="confidence-presence alert alert-light border">
+            {{#presence.ip}}{{#str}}presenceipnotice, mod_confidence{{/str}}{{/presence.ip}}
+            {{#presence.location}}{{#str}}presencelocationnotice, mod_confidence, {{presence.radius}}{{/str}}{{/presence.location}}
+            {{^presence.referenceready}}
+                {{#ismanager}}<div class="mt-2 text-warning">{{#str}}referencemissingteacher, mod_confidence{{/str}}</div>{{/ismanager}}
+                {{^ismanager}}<div class="mt-2 text-warning">{{#str}}referencenotset, mod_confidence{{/str}}</div>{{/ismanager}}
+            {{/presence.referenceready}}
+        </div>
+    {{/presence.enabled}}
+
+    {{#canrespond}}
+        {{^hasresponse}}
+            <form method="post" action="submit.php" class="confidence-response-form" data-requires-location="{{#requireslocation}}1{{/requireslocation}}{{^requireslocation}}0{{/requireslocation}}">
+                <input type="hidden" name="id" value="{{cmid}}">
+                <input type="hidden" name="sesskey" value="{{sesskey}}">
+                <input type="hidden" name="latitude" value="">
+                <input type="hidden" name="longitude" value="">
+                <input type="hidden" name="accuracy" value="">
+                <fieldset>
+                    <legend class="h5">{{#str}}yourconfidence, mod_confidence{{/str}}</legend>
+                    <div class="confidence-options">
+                        {{#options}}
+                            <label class="confidence-option">
+                                <input type="radio" name="level" value="{{value}}" required>
+                                <span class="confidence-option__label">{{label}}</span>
+                            </label>
+                        {{/options}}
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">{{#str}}submitresponse, mod_confidence{{/str}}</button>
+                    <span class="confidence-location-status ml-2" aria-live="polite"></span>
+                </fieldset>
+            </form>
+        {{/hasresponse}}
+
+        {{#hasresponse}}
+            <div class="confidence-current mb-3">
+                <strong>{{#str}}yourcurrentresponse, mod_confidence{{/str}}</strong> {{currentlabel}}
+            </div>
+            {{#allowchange}}
+                <form method="post" action="submit.php" class="confidence-response-form" data-requires-location="{{#requireslocation}}1{{/requireslocation}}{{^requireslocation}}0{{/requireslocation}}">
+                    <input type="hidden" name="id" value="{{cmid}}">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="hidden" name="latitude" value="">
+                    <input type="hidden" name="longitude" value="">
+                    <input type="hidden" name="accuracy" value="">
+                    <fieldset>
+                        <legend class="h5">{{#str}}changeresponse, mod_confidence{{/str}}</legend>
+                        <div class="confidence-options">
+                            {{#options}}
+                                <label class="confidence-option">
+                                    <input type="radio" name="level" value="{{value}}" {{#checked}}checked{{/checked}} required>
+                                    <span class="confidence-option__label">{{label}}</span>
+                                </label>
+                            {{/options}}
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">{{#str}}savenewresponse, mod_confidence{{/str}}</button>
+                        <span class="confidence-location-status ml-2" aria-live="polite"></span>
+                    </fieldset>
+                </form>
+            {{/allowchange}}
+        {{/hasresponse}}
+    {{/canrespond}}
+
+    {{#showstudentresults}}
+        <section class="confidence-student-results mt-5">
+            <h3 class="h5">{{#str}}groupresults, mod_confidence{{/str}}</h3>
+            {{#studentresults}}
+                <div class="confidence-result-row">
+                    <div class="confidence-result-row__label"><span>{{label}}</span><strong>{{count}} ({{percent}}%)</strong></div>
+                    <div class="confidence-result-row__track"><div class="confidence-result-row__bar" style="width: {{percent}}%"></div></div>
+                </div>
+            {{/studentresults}}
+        </section>
+    {{/showstudentresults}}
+
+    {{#ismanager}}
+        <section class="confidence-teacher-panel mt-5 border rounded p-3">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                <div>
+                    <h3 class="h5 mb-1">{{#str}}teacherpanel, mod_confidence{{/str}}</h3>
+                    {{#presence.enabled}}
+                        {{#presence.referenceready}}
+                            <div class="small text-muted" data-confidence-reference-summary>
+                                {{#presence.ip}}{{#str}}referenceip, mod_confidence{{/str}}: {{referenceip}}{{/presence.ip}}
+                                {{#presence.location}}{{#str}}referencelocation, mod_confidence{{/str}}: {{referencelocation}}{{/presence.location}}
+                            </div>
+                        {{/presence.referenceready}}
+                    {{/presence.enabled}}
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    {{#presence.enabled}}
+                        <button type="button" class="btn btn-outline-secondary" data-action="confidence-register-reference">
+                            {{#str}}registerreference, mod_confidence{{/str}}
+                        </button>
+                    {{/presence.enabled}}
+                    <a class="btn btn-primary" href="{{reporturl}}">{{#str}}viewreport, mod_confidence{{/str}}</a>
+                </div>
+            </div>
+            <div class="small mt-2" data-confidence-reference-status aria-live="polite"></div>
+        </section>
+    {{/ismanager}}
+</div>
