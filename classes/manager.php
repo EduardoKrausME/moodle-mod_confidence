@@ -222,7 +222,7 @@ class manager {
      * @return int Return value.
      */
     public static function submit_response(stdClass $confidence, stdClass $cm, int $userid, int $level,
-                                           ?float   $latitude, ?float $longitude, ?float $accuracy): int {
+                                           ?float $latitude, ?float $longitude, ?float $accuracy): int {
         global $DB;
 
         if ($level < 1 || $level > 4) {
@@ -276,7 +276,7 @@ class manager {
      * @return void Return value.
      */
     private static function validate_presence(stdClass $confidence, string $ipaddress, ?float $latitude,
-                                              ?float   $longitude): void {
+                                              ?float $longitude): void {
         global $DB;
 
         $mode = (int)$confidence->presencevalidation;
@@ -352,7 +352,7 @@ class manager {
      * @return stdClass Return value.
      */
     public static function register_reference(stdClass $confidence, stdClass $cm, int $userid,
-                                              ?float   $latitude, ?float $longitude, ?float $accuracy): stdClass {
+                                              ?float $latitude, ?float $longitude, ?float $accuracy): stdClass {
         global $DB;
 
         $context = context_module::instance($cm->id);
