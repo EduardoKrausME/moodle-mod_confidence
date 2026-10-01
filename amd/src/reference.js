@@ -21,8 +21,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(["jquery", "core/ajax", "core/notification"], function($, Ajax, Notification) {
-    var save = function(cmid, mode, latitude, longitude, accuracy, status) {
+define(["jquery", "core/ajax", "core/notification"], function ($, Ajax, Notification) {
+    var save = function (cmid, mode, latitude, longitude, accuracy, status) {
         status.text(M.util.get_string("savingreference", "mod_confidence"));
         var request = {
             methodname: "mod_confidence_register_reference",
@@ -33,17 +33,17 @@ define(["jquery", "core/ajax", "core/notification"], function($, Ajax, Notificat
                 accuracy: accuracy || 0
             }
         };
-        Ajax.call([request])[0].done(function(result) {
+        Ajax.call([request])[0].done(function (result) {
             status.text(result.message);
-            window.setTimeout(function() {
+            window.setTimeout(function () {
                 window.location.reload();
             }, 500);
         }).fail(Notification.exception);
     };
 
     return {
-        init: function(cmid, mode) {
-            $(document).on("click", "[data-action='confidence-register-reference']", function() {
+        init: function (cmid, mode) {
+            $(document).on("click", "[data-action='confidence-register-reference']", function () {
                 var status = $("[data-confidence-reference-status]");
                 if (mode !== 2) {
                     save(cmid, mode, 0, 0, 0, status);
@@ -54,10 +54,10 @@ define(["jquery", "core/ajax", "core/notification"], function($, Ajax, Notificat
                     return;
                 }
                 status.text(M.util.get_string("gettinglocation", "mod_confidence"));
-                navigator.geolocation.getCurrentPosition(function(position) {
+                navigator.geolocation.getCurrentPosition(function (position) {
                     save(cmid, mode, position.coords.latitude, position.coords.longitude,
                         position.coords.accuracy || 0, status);
-                }, function() {
+                }, function () {
                     status.text(M.util.get_string("locationdenied", "mod_confidence"));
                 }, {
                     enableHighAccuracy: true,

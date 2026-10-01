@@ -103,13 +103,39 @@
     max-width: 100%;
 }
 
-.mod-confidence-report .confidence-chart-level-1 { fill: #6c757d; stroke: #6c757d; }
-.mod-confidence-report .confidence-chart-level-2 { fill: #dc8b2f; stroke: #dc8b2f; }
-.mod-confidence-report .confidence-chart-level-3 { fill: #2f7ed8; stroke: #2f7ed8; }
-.mod-confidence-report .confidence-chart-level-4 { fill: #2f9e62; stroke: #2f9e62; }
-.mod-confidence-report .confidence-chart-before { fill: #adb5bd; }
-.mod-confidence-report .confidence-chart-after { fill: #2f9e62; }
-.mod-confidence-report .confidence-chart-area { fill-opacity: .16; stroke-width: 3; }
+.mod-confidence-report .confidence-chart-level-1 {
+    fill: #6c757d;
+    stroke: #6c757d;
+}
+
+.mod-confidence-report .confidence-chart-level-2 {
+    fill: #dc8b2f;
+    stroke: #dc8b2f;
+}
+
+.mod-confidence-report .confidence-chart-level-3 {
+    fill: #2f7ed8;
+    stroke: #2f7ed8;
+}
+
+.mod-confidence-report .confidence-chart-level-4 {
+    fill: #2f9e62;
+    stroke: #2f9e62;
+}
+
+.mod-confidence-report .confidence-chart-before {
+    fill: #adb5bd;
+}
+
+.mod-confidence-report .confidence-chart-after {
+    fill: #2f9e62;
+}
+
+.mod-confidence-report .confidence-chart-area {
+    fill-opacity: .16;
+    stroke-width: 3;
+}
+
 .mod-confidence-report .confidence-chart-label,
 .mod-confidence-report .confidence-chart-axis,
 .mod-confidence-report .confidence-chart-value,
@@ -119,4 +145,7 @@
     font-size: 13px;
     stroke: none;
 }
-.mod-confidence-report .confidence-chart-value { font-weight: 700; }
+
+.mod-confidence-report .confidence-chart-value {
+    font-weight: 700;
+}

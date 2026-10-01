@@ -36,8 +36,8 @@ use core_privacy\local\request\writer;
  * Class provider.
  */
 class provider implements
-        \core_privacy\local\metadata\provider,
-        \core_privacy\local\request\plugin\provider {
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\plugin\provider {
 
     /**
      * Method get_metadata.
@@ -101,9 +101,9 @@ class provider implements
         foreach ($DB->get_records_sql($sql, ["modname" => "confidence"]) as $instance) {
             $participantkey = hash_hmac("sha256", (string)$userid, $instance->anonymoussalt);
             if ($DB->record_exists("confidence_response", [
-                    "confidenceid" => $instance->id,
-                    "participantkey" => $participantkey,
-                ])) {
+                "confidenceid" => $instance->id,
+                "participantkey" => $participantkey,
+            ])) {
                 $anonymouscmids[] = (int)$instance->cmid;
             }
         }

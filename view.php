@@ -22,6 +22,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_confidence\manager;
+
+defined('MOODLE_INTERNAL') || die;
+
 require(__DIR__ . "/../../config.php");
 
 $id = required_param("id", PARAM_INT);
@@ -48,7 +52,7 @@ $PAGE->requires->strings_for_js([
     "savingreference",
 ], "mod_confidence");
 
-$manager = \mod_confidence\manager::class;
+$manager = manager::class;
 $levels = $manager::get_levels();
 $currentresponse = $manager::get_latest_user_response($confidence, $USER->id);
 $canrespond = has_capability("mod/confidence:respond", $context) && $manager::is_open($confidence);

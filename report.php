@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_confidence\manager;
+
 require(__DIR__ . "/../../config.php");
 
 $id = required_param("id", PARAM_INT);
@@ -41,9 +43,9 @@ $PAGE->requires->strings_for_js([
     "legendbefore",
     "legendafter",
 ], "mod_confidence");
-$PAGE->requires->js_call_amd("mod_confidence/report", "init", [$cm->id, array_values(\mod_confidence\manager::get_levels())]);
+$PAGE->requires->js_call_amd("mod_confidence/report", "init", [$cm->id, array_values(manager::get_levels())]);
 
-$data = \mod_confidence\manager::report_data($confidence);
+$data = manager::report_data($confidence);
 $templatecontext = [
     "cmid" => $cm->id,
     "name" => format_string($confidence->name),

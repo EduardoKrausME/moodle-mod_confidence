@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_confidence\manager;
+
 /**
  * Return supported Moodle features.
  *
@@ -55,7 +57,7 @@ function confidence_supports($feature) {
  * @return int
  */
 function confidence_add_instance($data, $mform = null) {
-    return \mod_confidence\manager::add_instance($data);
+    return manager::add_instance($data);
 }
 
 /**
@@ -66,7 +68,7 @@ function confidence_add_instance($data, $mform = null) {
  * @return bool
  */
 function confidence_update_instance($data, $mform = null) {
-    return \mod_confidence\manager::update_instance($data);
+    return manager::update_instance($data);
 }
 
 /**
@@ -76,7 +78,7 @@ function confidence_update_instance($data, $mform = null) {
  * @return bool
  */
 function confidence_delete_instance($id) {
-    return \mod_confidence\manager::delete_instance($id);
+    return manager::delete_instance($id);
 }
 
 

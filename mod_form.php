@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_confidence\manager;
+
 defined('MOODLE_INTERNAL') || die;
 
 require_once("{$CFG->dirroot}/course/moodleform_mod.php");
@@ -63,12 +65,12 @@ class mod_confidence_mod_form extends moodleform_mod {
         $mform->setDefault("allowchange", 1);
 
         $showoptions = [
-            \mod_confidence\manager::SHOWRESULTS_NEVER => get_string("showresultsnever", "mod_confidence"),
-            \mod_confidence\manager::SHOWRESULTS_AFTER_RESPONSE => get_string("showresultsafterresponse", "mod_confidence"),
-            \mod_confidence\manager::SHOWRESULTS_AFTER_CLOSE => get_string("showresultsafterclose", "mod_confidence"),
+            manager::SHOWRESULTS_NEVER => get_string("showresultsnever", "mod_confidence"),
+            manager::SHOWRESULTS_AFTER_RESPONSE => get_string("showresultsafterresponse", "mod_confidence"),
+            manager::SHOWRESULTS_AFTER_CLOSE => get_string("showresultsafterclose", "mod_confidence"),
         ];
         $mform->addElement("select", "showresults", get_string("showresults", "mod_confidence"), $showoptions);
-        $mform->setDefault("showresults", \mod_confidence\manager::SHOWRESULTS_AFTER_RESPONSE);
+        $mform->setDefault("showresults", manager::SHOWRESULTS_AFTER_RESPONSE);
 
         $mform->addElement("header", "availability", get_string("availability"));
         $mform->addElement("date_time_selector", "timeopen", get_string("timeopen", "mod_confidence"), ["optional" => true]);
@@ -76,19 +78,19 @@ class mod_confidence_mod_form extends moodleform_mod {
 
         $mform->addElement("header", "presence", get_string("presencevalidation", "mod_confidence"));
         $presenceoptions = [
-            \mod_confidence\manager::PRESENCE_NONE => get_string("presencenone", "mod_confidence"),
-            \mod_confidence\manager::PRESENCE_IP => get_string("presenceip", "mod_confidence"),
-            \mod_confidence\manager::PRESENCE_LOCATION => get_string("presencelocation", "mod_confidence"),
+            manager::PRESENCE_NONE => get_string("presencenone", "mod_confidence"),
+            manager::PRESENCE_IP => get_string("presenceip", "mod_confidence"),
+            manager::PRESENCE_LOCATION => get_string("presencelocation", "mod_confidence"),
         ];
         $mform->addElement("select", "presencevalidation", get_string("presencevalidation", "mod_confidence"), $presenceoptions);
         $mform->addHelpButton("presencevalidation", "presencevalidation", "mod_confidence");
-        $mform->setDefault("presencevalidation", \mod_confidence\manager::PRESENCE_NONE);
+        $mform->setDefault("presencevalidation", manager::PRESENCE_NONE);
 
         $mform->addElement("text", "locationradius", get_string("locationradius", "mod_confidence"), ["size" => 8]);
         $mform->setType("locationradius", PARAM_INT);
         $mform->setDefault("locationradius", 100);
         $mform->addHelpButton("locationradius", "locationradius", "mod_confidence");
-        $mform->hideIf("locationradius", "presencevalidation", "neq", \mod_confidence\manager::PRESENCE_LOCATION);
+        $mform->hideIf("locationradius", "presencevalidation", "neq", manager::PRESENCE_LOCATION);
 
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
@@ -125,11 +127,11 @@ class mod_confidence_mod_form extends moodleform_mod {
             $errors["timeclose"] = get_string("errortimeclose", "mod_confidence");
         }
 
-        if ((int)$data["showresults"] === \mod_confidence\manager::SHOWRESULTS_AFTER_CLOSE && empty($data["timeclose"])) {
+        if ((int)$data["showresults"] === manager::SHOWRESULTS_AFTER_CLOSE && empty($data["timeclose"])) {
             $errors["timeclose"] = get_string("errorcloseforresults", "mod_confidence");
         }
 
-        if ((int)$data["presencevalidation"] === \mod_confidence\manager::PRESENCE_LOCATION) {
+        if ((int)$data["presencevalidation"] === manager::PRESENCE_LOCATION) {
             $radius = (int)($data["locationradius"] ?? 0);
             if ($radius < 1 || $radius > 5000) {
                 $errors["locationradius"] = get_string("errorlocationradius", "mod_confidence");

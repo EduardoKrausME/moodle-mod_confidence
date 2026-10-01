@@ -23,7 +23,8 @@
     }
 }}
 <div class="mod-confidence" data-cmid="{{cmid}}">
-    {{#intro}}<div class="mb-4">{{{intro}}}</div>{{/intro}}
+    {{#intro}}
+        <div class="mb-4">{{{intro}}}</div>{{/intro}}
 
     <section class="confidence-question mb-4">
         <div class="confidence-question__label">{{#str}}question, mod_confidence{{/str}}</div>
@@ -37,17 +38,22 @@
     {{#presence.enabled}}
         <div class="confidence-presence alert alert-light border">
             {{#presence.ip}}{{#str}}presenceipnotice, mod_confidence{{/str}}{{/presence.ip}}
-            {{#presence.location}}{{#str}}presencelocationnotice, mod_confidence, {{presence.radius}}{{/str}}{{/presence.location}}
+            {{#presence.location}}{{#str}}
+                presencelocationnotice, mod_confidence, {{presence.radius}}{{/str}}{{/presence.location}}
             {{^presence.referenceready}}
-                {{#ismanager}}<div class="mt-2 text-warning">{{#str}}referencemissingteacher, mod_confidence{{/str}}</div>{{/ismanager}}
-                {{^ismanager}}<div class="mt-2 text-warning">{{#str}}referencenotset, mod_confidence{{/str}}</div>{{/ismanager}}
+                {{#ismanager}}
+                    <div class="mt-2 text-warning">{{#str}}
+                        referencemissingteacher, mod_confidence{{/str}}</div>{{/ismanager}}
+                {{^ismanager}}
+                    <div class="mt-2 text-warning">{{#str}}referencenotset, mod_confidence{{/str}}</div>{{/ismanager}}
             {{/presence.referenceready}}
         </div>
     {{/presence.enabled}}
 
     {{#canrespond}}
         {{^hasresponse}}
-            <form method="post" action="submit.php" class="confidence-response-form" data-requires-location="{{#requireslocation}}1{{/requireslocation}}{{^requireslocation}}0{{/requireslocation}}">
+            <form method="post" action="submit.php" class="confidence-response-form"
+                  data-requires-location="{{#requireslocation}}1{{/requireslocation}}{{^requireslocation}}0{{/requireslocation}}">
                 <input type="hidden" name="id" value="{{cmid}}">
                 <input type="hidden" name="sesskey" value="{{sesskey}}">
                 <input type="hidden" name="latitude" value="">
@@ -63,7 +69,8 @@
                             </label>
                         {{/options}}
                     </div>
-                    <button type="submit" class="btn btn-primary mt-3">{{#str}}submitresponse, mod_confidence{{/str}}</button>
+                    <button type="submit" class="btn btn-primary mt-3">{{#str}}
+                        submitresponse, mod_confidence{{/str}}</button>
                     <span class="confidence-location-status ml-2" aria-live="polite"></span>
                 </fieldset>
             </form>
@@ -74,7 +81,8 @@
                 <strong>{{#str}}yourcurrentresponse, mod_confidence{{/str}}</strong> {{currentlabel}}
             </div>
             {{#allowchange}}
-                <form method="post" action="submit.php" class="confidence-response-form" data-requires-location="{{#requireslocation}}1{{/requireslocation}}{{^requireslocation}}0{{/requireslocation}}">
+                <form method="post" action="submit.php" class="confidence-response-form"
+                      data-requires-location="{{#requireslocation}}1{{/requireslocation}}{{^requireslocation}}0{{/requireslocation}}">
                     <input type="hidden" name="id" value="{{cmid}}">
                     <input type="hidden" name="sesskey" value="{{sesskey}}">
                     <input type="hidden" name="latitude" value="">
@@ -85,12 +93,14 @@
                         <div class="confidence-options">
                             {{#options}}
                                 <label class="confidence-option">
-                                    <input type="radio" name="level" value="{{value}}" {{#checked}}checked{{/checked}} required>
+                                    <input type="radio" name="level" value="{{value}}"
+                                           {{#checked}}checked{{/checked}} required>
                                     <span class="confidence-option__label">{{label}}</span>
                                 </label>
                             {{/options}}
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">{{#str}}savenewresponse, mod_confidence{{/str}}</button>
+                        <button type="submit" class="btn btn-primary mt-3">{{#str}}
+                            savenewresponse, mod_confidence{{/str}}</button>
                         <span class="confidence-location-status ml-2" aria-live="polite"></span>
                     </fieldset>
                 </form>
@@ -103,8 +113,11 @@
             <h3 class="h5">{{#str}}groupresults, mod_confidence{{/str}}</h3>
             {{#studentresults}}
                 <div class="confidence-result-row">
-                    <div class="confidence-result-row__label"><span>{{label}}</span><strong>{{count}} ({{percent}}%)</strong></div>
-                    <div class="confidence-result-row__track"><div class="confidence-result-row__bar" style="width: {{percent}}%"></div></div>
+                    <div class="confidence-result-row__label"><span>{{label}}</span><strong>{{count}} ({{percent}}
+                        %)</strong></div>
+                    <div class="confidence-result-row__track">
+                        <div class="confidence-result-row__bar" style="width: {{percent}}%"></div>
+                    </div>
                 </div>
             {{/studentresults}}
         </section>
@@ -118,15 +131,18 @@
                     {{#presence.enabled}}
                         {{#presence.referenceready}}
                             <div class="small text-muted" data-confidence-reference-summary>
-                                {{#presence.ip}}{{#str}}referenceip, mod_confidence{{/str}}: {{referenceip}}{{/presence.ip}}
-                                {{#presence.location}}{{#str}}referencelocation, mod_confidence{{/str}}: {{referencelocation}}{{/presence.location}}
+                                {{#presence.ip}}{{#str}}
+                                    referenceip, mod_confidence{{/str}}: {{referenceip}}{{/presence.ip}}
+                                {{#presence.location}}{{#str}}referencelocation, mod_confidence{{/str}}
+                                    : {{referencelocation}}{{/presence.location}}
                             </div>
                         {{/presence.referenceready}}
                     {{/presence.enabled}}
                 </div>
                 <div class="d-flex flex-wrap gap-2">
                     {{#presence.enabled}}
-                        <button type="button" class="btn btn-outline-secondary" data-action="confidence-register-reference">
+                        <button type="button" class="btn btn-outline-secondary"
+                                data-action="confidence-register-reference">
                             {{#str}}registerreference, mod_confidence{{/str}}
                         </button>
                     {{/presence.enabled}}

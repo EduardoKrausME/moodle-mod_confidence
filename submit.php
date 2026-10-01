@@ -22,6 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\output\notification;
+use mod_confidence\manager;
+
 require(__DIR__ . "/../../config.php");
 
 $id = required_param("id", PARAM_INT);
@@ -41,7 +44,7 @@ require_course_login($course, true, $cm);
 require_sesskey();
 require_capability("mod/confidence:respond", context_module::instance($cm->id));
 
-\mod_confidence\manager::submit_response(
+manager::submit_response(
     $confidence,
     $cm,
     $USER->id,
@@ -55,5 +58,5 @@ redirect(
     new moodle_url("/mod/confidence/view.php", ["id" => $cm->id]),
     get_string("responsesaved", "mod_confidence"),
     null,
-    \core\output\notification::NOTIFY_SUCCESS
+    notification::NOTIFY_SUCCESS
 );

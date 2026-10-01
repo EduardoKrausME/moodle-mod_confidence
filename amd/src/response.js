@@ -21,8 +21,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(["jquery"], function($) {
-    var locateAndSubmit = function(form) {
+define(["jquery"], function ($) {
+    var locateAndSubmit = function (form) {
         var status = $(form).find(".confidence-location-status");
         if (!navigator.geolocation) {
             status.text(M.util.get_string("locationunsupported", "mod_confidence"));
@@ -30,13 +30,13 @@ define(["jquery"], function($) {
         }
 
         status.text(M.util.get_string("gettinglocation", "mod_confidence"));
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             $(form).find("input[name='latitude']").val(position.coords.latitude);
             $(form).find("input[name='longitude']").val(position.coords.longitude);
             $(form).find("input[name='accuracy']").val(position.coords.accuracy || 0);
             form.dataset.locationReady = "1";
             form.submit();
-        }, function() {
+        }, function () {
             status.text(M.util.get_string("locationdenied", "mod_confidence"));
         }, {
             enableHighAccuracy: true,
@@ -46,9 +46,9 @@ define(["jquery"], function($) {
     };
 
     return {
-        init: function() {
+        init: function () {
             M.util.js_pending("mod_confidence_response");
-            $(document).on("submit", ".confidence-response-form", function(event) {
+            $(document).on("submit", ".confidence-response-form", function (event) {
                 if ($(this).data("requires-location") !== 1 || this.dataset.locationReady === "1") {
                     return;
                 }

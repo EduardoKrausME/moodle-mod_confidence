@@ -30,6 +30,7 @@ use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
+use mod_confidence\manager;
 
 /**
  * Class get_report_data.
@@ -62,7 +63,7 @@ class get_report_data extends external_api {
         self::validate_context($context);
         require_capability("mod/confidence:viewreport", $context);
 
-        return \mod_confidence\manager::report_data($confidence);
+        return manager::report_data($confidence);
     }
 
     /**

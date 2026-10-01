@@ -29,6 +29,7 @@ use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
+use mod_confidence\manager;
 
 /**
  * Class register_reference.
@@ -73,14 +74,14 @@ class register_reference extends external_api {
         self::validate_context($context);
         require_capability("mod/confidence:managereference", $context);
 
-        $lat = (int)$confidence->presencevalidation === \mod_confidence\manager::PRESENCE_LOCATION
+        $lat = (int)$confidence->presencevalidation === manager::PRESENCE_LOCATION
             ? $params["latitude"] : null;
-        $lon = (int)$confidence->presencevalidation === \mod_confidence\manager::PRESENCE_LOCATION
+        $lon = (int)$confidence->presencevalidation === manager::PRESENCE_LOCATION
             ? $params["longitude"] : null;
-        $acc = (int)$confidence->presencevalidation === \mod_confidence\manager::PRESENCE_LOCATION
+        $acc = (int)$confidence->presencevalidation === manager::PRESENCE_LOCATION
             ? $params["accuracy"] : null;
 
-        $record = \mod_confidence\manager::register_reference($confidence, $cm, $USER->id, $lat, $lon, $acc);
+        $record = manager::register_reference($confidence, $cm, $USER->id, $lat, $lon, $acc);
 
         return [
             "message" => get_string("referencesaved", "mod_confidence"),
