@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - .github/workflows/rebuild-amd-once.yml
+      - amd/src/**
 
 permissions:
   contents: write
