@@ -50,6 +50,8 @@ class restore_confidence_activity_structure_step extends restore_activity_struct
 
         $data = (object)$data;
         $data->course = $this->get_courseid();
+        $data->timeopen = $this->apply_date_offset($data->timeopen);
+        $data->timeclose = $this->apply_date_offset($data->timeclose);
         $newitemid = $DB->insert_record("confidence", $data);
         $this->apply_activity_instance($newitemid);
     }

@@ -37,7 +37,8 @@ use core_privacy\local\request\writer;
  */
 class provider implements
     \core_privacy\local\metadata\provider,
-    \core_privacy\local\request\plugin\provider {
+    \core_privacy\local\request\plugin\provider,
+    \core_privacy\local\request\core_userlist_provider {
 
     /**
      * Method get_metadata.
@@ -118,6 +119,46 @@ class provider implements
         }
 
         return $contextlist;
+    }
+
+
+    /**
+     * Add users who have data in the supplied module context.
+     *
+     * Anonymous responses use userid 0 and therefore cannot be enumerated here.
+     *
+     * @param \core_privacy\local\request\userlist $userlist Approved context user list.
+     * @return void
+     */
+    public static function get_users_in_context(
+        \core_privacy\local\request\userlist $userlist
+    ): void {
+        $context = $userlist->get_context();
+        if (!$context instanceof context_module) {
+            return;
+        }
+
+        $cm = get_coursemodule_from_id("confidence", $context->instanceid);
+        if (!$cm) {
+            return;
+        }
+
+        $userlist->add_from_sql(
+            "userid",
+            "SELECT DISTINCT userid
+               FROM {confidence_response}
+              WHERE confidenceid = :responseconfidenceid
+                AND userid <> 0",
+            ["responseconfidenceid" => $cm->instance]
+        );
+        $userlist->add_from_sql(
+            "userid",
+            "SELECT DISTINCT userid
+               FROM {confidence_reference}
+              WHERE confidenceid = :referenceconfidenceid
+                AND userid <> 0",
+            ["referenceconfidenceid" => $cm->instance]
+        );
     }
 
     /**
@@ -242,4 +283,79 @@ class provider implements
             $DB->delete_records("confidence_reference", ["confidenceid" => $confidence->id, "userid" => $userid]);
         }
     }
+    /**
+     * Delete data for an approved set of users in one module context.
+     *
+     * @param \core_privacy\local\request\approved_userlist $userlist Approved users.
+     * @return void
+     */
+    public static function delete_data_for_users(
+        \core_privacy\local\request\approved_userlist $userlist
+    ): void {
+        global $DB;
+
+        $context = $userlist->get_context();
+        $userids = $userlist->get_userids();
+        if (!$context instanceof context_module || !$userids) {
+            return;
+        }
+
+        $cm = get_coursemodule_from_id("confidence", $context->instanceid);
+        if (!$cm) {
+            return;
+        }
+
+        $confidence = $DB->get_record(
+            "confidence",
+            ["id" => $cm->instance],
+            "id, anonymous, anonymoussalt"
+        );
+        if (!$confidence) {
+            return;
+        }
+
+        [$usersql, $userparams] = $DB->get_in_or_equal(
+            $userids,
+            SQL_PARAMS_NAMED,
+            "responseuserid"
+        );
+        $userparams["confidenceid"] = $confidence->id;
+        $DB->delete_records_select(
+            "confidence_response",
+            "confidenceid = :confidenceid AND userid {$usersql}",
+            $userparams
+        );
+
+        if (!empty($confidence->anonymous)) {
+            $participantkeys = [];
+            foreach ($userids as $userid) {
+                $participantkeys[] = hash_hmac("sha256", (string)$userid, $confidence->anonymoussalt);
+            }
+
+            [$keysql, $keyparams] = $DB->get_in_or_equal(
+                $participantkeys,
+                SQL_PARAMS_NAMED,
+                "participantkey"
+            );
+            $keyparams["confidenceid"] = $confidence->id;
+            $DB->delete_records_select(
+                "confidence_response",
+                "confidenceid = :confidenceid AND participantkey {$keysql}",
+                $keyparams
+            );
+        }
+
+        [$referencesql, $referenceparams] = $DB->get_in_or_equal(
+            $userids,
+            SQL_PARAMS_NAMED,
+            "referenceuserid"
+        );
+        $referenceparams["confidenceid"] = $confidence->id;
+        $DB->delete_records_select(
+            "confidence_reference",
+            "confidenceid = :confidenceid AND userid {$referencesql}",
+            $referenceparams
+        );
+    }
+
 }

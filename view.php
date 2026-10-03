@@ -37,6 +37,15 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability("mod/confidence:view", $context);
 
+$event = \mod_confidence\event\course_module_viewed::create([
+    "objectid" => $confidence->id,
+    "context" => $context,
+]);
+$event->add_record_snapshot("course", $course);
+$event->add_record_snapshot("course_modules", $cm);
+$event->add_record_snapshot("confidence", $confidence);
+$event->trigger();
+
 require_once($CFG->libdir . "/completionlib.php");
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
