@@ -50,7 +50,7 @@ class restore_confidence_activity_task extends restore_activity_task {
     /**
      * Method define_decode_contents.
      *
-     * @return mixed Return value.
+     * @return array Return value.
      */
     public static function define_decode_contents() {
         return [];
@@ -59,9 +59,27 @@ class restore_confidence_activity_task extends restore_activity_task {
     /**
      * Method define_decode_rules.
      *
-     * @return mixed Return value.
+     * @return array Return value.
      */
     public static function define_decode_rules() {
+        return [];
+    }
+
+    /**
+     * Define the restore log rules for this activity.
+     *
+     * @return array Restore log rules.
+     */
+    public static function define_restore_log_rules() {
+        return [];
+    }
+
+    /**
+     * Define the restore log rules for course-level logs.
+     *
+     * @return array Restore log rules.
+     */
+    public static function define_restore_log_rules_for_course() {
         return [];
     }
 }
