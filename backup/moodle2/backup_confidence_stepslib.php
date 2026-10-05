@@ -49,7 +49,7 @@ class backup_confidence_activity_structure_step extends backup_activity_structur
         $confidence->set_source_table("confidence", ["id" => backup::VAR_ACTIVITYID]);
 
         if ($userinfo) {
-            $response->set_source_table("confidence_response", ["confidenceid" => backup::VAR_PARENTID]);
+            $response->set_source_table("confidence_response", ["confidenceid" => "../../id"]);
             $response->annotate_ids("user", "userid");
         }
 
