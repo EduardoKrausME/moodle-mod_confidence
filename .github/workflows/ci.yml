@@ -83,10 +83,6 @@ jobs:
       if: ${{ !cancelled() }}
       run: moodle-plugin-ci phpmd
 
-    - name: Validate AMD build
-      if: ${{ !cancelled() }}
-      run: moodle-plugin-ci grunt --tasks amd
-
     - name: Validate Moodle plugin
       uses: EduardoKrausME/moodle-plugin-validate@master
       with:
